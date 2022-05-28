@@ -36,7 +36,8 @@ async function run() {
     await client.connect();
     const itemsCollection = client.db('jontropati').collection('items');
     const userCollection = client.db('jontropati').collection('user');
-    const reviewCollection = client.db('jontropati').collection('reviews');
+    const reviewsCollection = client.db('jontropati').collection('reviews');
+    const profilesCollection = client.db('jontropati').collection('profiles');
 
 
     app.get('/item', async (req, res) => {
@@ -105,8 +106,16 @@ async function run() {
     app.get('/reviews', async (req, res) => {
       const query = {};
       const cursor = reviewsCollection.find(query);
-      const items = await cursor.toArray();
+      const reviews = await cursor.toArray();
       res.send(items);
+    })
+
+    // profile===========
+    app.get('/profiles', async (req, res) => {
+      const query = {};
+      const cursor = profilesCollection.find(query);
+      const profiles = await cursor.toArray();
+      res.send(profiles);
     })
   }
   finally {
