@@ -36,6 +36,7 @@ async function run() {
     await client.connect();
     const itemsCollection = client.db('jontropati').collection('items');
     const userCollection = client.db('jontropati').collection('user');
+    const reviewCollection = client.db('jontropati').collection('reviews');
 
 
     app.get('/item', async (req, res) => {
@@ -45,13 +46,13 @@ async function run() {
       res.send(items);
     })
 
-    // verifytoken===================
+    // verify token===================
     app.get('/user', verifyJWT, async (req, res) => {
       const users = await userCollection.find().toArray();
       res.send(users);
     });
 
-    // ====================all users in admin page================
+    // ====all users in admin page================
     app.get('/user', async (req, res) => {
       const users = await userCollection.find().toArray();
       res.send(users);
@@ -98,6 +99,14 @@ async function run() {
 
       const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
       res.send({ result, token });
+    })
+
+    // reviews =====================
+    app.get('/reviews', async (req, res) => {
+      const query = {};
+      const cursor = reviewsCollection.find(query);
+      const items = await cursor.toArray();
+      res.send(items);
     })
   }
   finally {
