@@ -116,6 +116,8 @@ async function run() {
       const cursor = profilesCollection.find(query);
       const profiles = await cursor.toArray();
       res.send(profiles);
+
+      
     })
   }
   finally {
